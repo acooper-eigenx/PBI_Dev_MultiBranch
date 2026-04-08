@@ -1,8 +1,0 @@
-relationship 045a58ce-861a-02ba-8ee3-52eb3f2427c2
-	fromColumn: Hospital_Data.Date
-	toColumn: Calendar.Date
-
-relationship f5a8fab7-1b7b-3d13-5e68-26de63a0b698
-	fromColumn: Hospital_Data.Time
-	toColumn: Time_Of_Day.Time_Of_Day
-
