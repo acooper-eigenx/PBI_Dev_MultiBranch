@@ -1,0 +1,236 @@
+table Hospital_Data
+	lineageTag: b57bf411-a147-451f-9e11-8f8a07b05169
+
+	column patient_id
+		dataType: string
+		lineageTag: 4d6d1b0c-0edc-4767-8926-debe099b9ee3
+		summarizeBy: none
+		sourceColumn: patient_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_gender
+		dataType: string
+		lineageTag: 07bbaa84-680b-4dd6-98c7-72d1e41dc09e
+		summarizeBy: none
+		sourceColumn: patient_gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_age
+		dataType: int64
+		formatString: 0
+		lineageTag: 5dd89b50-1b93-4717-85c1-34ec13b7576e
+		summarizeBy: sum
+		sourceColumn: patient_age
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_first_initial
+		dataType: string
+		lineageTag: d1747439-ae76-4404-9776-1dc28cad882c
+		summarizeBy: none
+		sourceColumn: patient_first_initial
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_last_name
+		dataType: string
+		lineageTag: fe0592e2-5378-45de-8f7c-08f7f9168744
+		summarizeBy: none
+		sourceColumn: patient_last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_race
+		dataType: string
+		lineageTag: 61d23a31-e8bc-495d-8919-e2001de91330
+		summarizeBy: none
+		sourceColumn: patient_race
+
+		annotation SummarizationSetBy = Automatic
+
+	column department_referral
+		dataType: string
+		lineageTag: aae1ebbe-4fed-41b1-8b6b-69d6748962ce
+		summarizeBy: none
+		sourceColumn: department_referral
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_waittime
+		dataType: int64
+		formatString: 0
+		lineageTag: f746aec8-2ea3-42b3-85b1-5f5a8076fa80
+		summarizeBy: sum
+		sourceColumn: patient_waittime
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_sat_score
+		dataType: double
+		lineageTag: f5161046-8dab-44a9-964c-bc0c122e48ca
+		summarizeBy: sum
+		sourceColumn: patient_sat_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 94379af4-1e3d-4ac6-be70-488346229a00
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 5be88afc-32a2-4af6-9a1b-48fab05559f2
+		summarizeBy: none
+		sourceColumn: Time
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column Age_Bucket =
+			
+			SWITCH(
+			    TRUE(),
+			    [patient_age] < 18, "Pediatric (0 - 17)",
+			    [patient_age] >= 18 && [patient_age] < 35, "Young Adults (18 - 34)",
+			    [patient_age] >= 35 && [patient_age] < 50, "Midlife Adults (35 - 49)",
+			    [patient_age] >= 50 && [patient_age] < 65, "Pre-Senior (50 - 64)",
+			    "Senior Citizen (65+)"
+			)
+		lineageTag: fc171415-dc4b-45cd-a5cc-b60a82d101d3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column patient_admitted_desc
+		dataType: string
+		lineageTag: e8d1b7f0-ad10-46a2-8759-a441559c400a
+		summarizeBy: none
+		sourceColumn: patient_admitted_desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column Wait_Time_Bucket =
+			
+			SWITCH(
+			    TRUE(),
+			    [patient_waittime] <= 15, "0 - 15 Minutes",
+			    [patient_waittime] >= 16 && [patient_waittime] <= 30, "16 - 30 Minutes",
+			    [patient_waittime] >= 31 && [patient_waittime] <= 45, "31 - 45 Minutes",
+			    [patient_waittime] >= 46 && [patient_waittime] <= 60, "46 - 60 Minutes",
+			    "Over 60 Minutes"
+			)
+		lineageTag: 22f5e3fe-e51e-489d-8349-15e4d9be677c
+		summarizeBy: none
+		sortByColumn: Wait_Time_Bucket_Sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Wait_Time_Bucket_Sort =
+			
+			SWITCH(
+			    TRUE(),
+			    [patient_waittime] <= 15, 0,
+			    [patient_waittime] >= 15 && [patient_waittime] <= 30, 1,
+			    [patient_waittime] >= 31 && [patient_waittime] <= 45, 2,
+			    [patient_waittime] >= 46 && [patient_waittime] <= 60, 3,
+			    4
+			)
+		isHidden
+		formatString: 0
+		lineageTag: f8273df3-fb87-49d3-86b6-d6c7c58d2ef9
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Satisfaction_Bucket =
+			
+			SWITCH(
+			    TRUE(),
+			    ROUND([patient_sat_score], 0) <= 1, "0 - 1",
+			    ROUND([patient_sat_score], 0) >= 2 && ROUND([patient_sat_score], 0) <= 3, "2 - 3",
+			    ROUND([patient_sat_score], 0) >= 4 && ROUND([patient_sat_score], 0) <= 5, "4 - 5",
+			    ROUND([patient_sat_score], 0) >= 6 && ROUND([patient_sat_score], 0) <= 7, "6 - 7",
+			    ROUND([patient_sat_score], 0) >= 8 && ROUND([patient_sat_score], 0) <= 9, "8 - 9",
+			    "10"
+			)
+		lineageTag: 87bd6a6e-884e-40df-a0c4-76ef1d68a95f
+		summarizeBy: none
+		sortByColumn: Satisfaction_Bucket_Sort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Satisfaction_Bucket_Sort =
+			
+			SWITCH(
+			    TRUE(),
+			    ROUND([patient_sat_score], 0) <= 1, 0,
+			    ROUND([patient_sat_score], 0) >= 2 && ROUND([patient_sat_score], 0) <= 3, 1,
+			    ROUND([patient_sat_score], 0) >= 4 && ROUND([patient_sat_score], 0) <= 5, 2,
+			    ROUND([patient_sat_score], 0) >= 6 && ROUND([patient_sat_score], 0) <= 7, 3,
+			    ROUND([patient_sat_score], 0) >= 8 && ROUND([patient_sat_score], 0) <= 9, 4,
+			    5
+			)
+		isHidden
+		formatString: 0
+		lineageTag: 5c9ef5a9-cab4-43cd-89e9-f5ef9325d019
+		summarizeBy: sum
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateTime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5435c90b-5c9a-4956-82b0-d40a4df8d8fb
+		summarizeBy: none
+		sourceColumn: DateTime
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Hospital_Data = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\AndrewCooper\OneDrive - Eigen X LLC\PBI\Hospital Dashboard\Hospital_ER_Data_20240826.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date & Time", type datetime}, {"Hour_of_day", Int64.Type}, {"patient_id", type text}, {"patient_gender", type text}, {"patient_age", Int64.Type}, {"patient_first_initial", type text}, {"patient_last_name", type text}, {"patient_race", type text}, {"department_referral", type text}, {"month", Int64.Type}, {"patient_admin_flag", type logical}, {"patient_waittime", Int64.Type}, {"patient_sat_score", type number}}),
+				    #"Inserted Date" = Table.AddColumn(#"Changed Type", "Date", each DateTime.Date([#"Date & Time"]), type date),
+				    #"Inserted Time" = Table.AddColumn(#"Inserted Date", "Time", each DateTime.Time([#"Date & Time"]), type time),
+				    #"Removed Columns" = Table.RemoveColumns(#"Inserted Time",{"month", "Hour_of_day"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Removed Columns",{"Date", "Time", "patient_id", "patient_gender", "patient_age", "patient_first_initial", "patient_last_name", "patient_race", "department_referral", "patient_admin_flag", "patient_waittime", "patient_sat_score"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"patient_admin_flag", "patient_admitted"}, {"Date & Time", "DateTime"}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Renamed Columns", "patient_admitted_desc", each if [patient_admitted] = true then "Admitted" else "Not Admitted", type text),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Added Conditional Column",{"patient_admitted"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Columns1","M","Male",Replacer.ReplaceValue,{"patient_gender"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","F","Female",Replacer.ReplaceValue,{"patient_gender"})
+				in
+				    #"Replaced Value1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

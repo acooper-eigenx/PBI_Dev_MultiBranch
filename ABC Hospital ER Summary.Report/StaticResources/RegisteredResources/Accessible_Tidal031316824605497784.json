@@ -1,0 +1,84 @@
+{
+  "name": "Accessible Tidal",
+  "dataColors": [
+    "#0F3D6E",
+    "#1F84FF",
+    "#19423F",
+    "#59A472",
+    "#0F3A69",
+    "#0E94FF",
+    "#0B2623",
+    "#EB8100"
+  ],
+  "foreground": "#121212",
+  "background": "#FFFFFF",
+  "foregroundNeutralSecondary": "#6C6966",
+  "backgroundLight": "#E5E0DA",
+  "foregroundNeutralTertiary": "#ABA7A2",
+  "backgroundNeutral": "#C6C2BE",
+  "tableAccent": "#4E9466",
+  "maximum": "#0B2F54",
+  "center": "#59A472",
+  "minimum": "#4A87D1",
+  "bad": "#0F3D6E",
+  "neutral": "#186DD5",
+  "good": "#46835A",
+  "textClasses": {
+    "callout": {
+      "fontFace": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif",
+      "fontSize": 20,
+      "color": "#002C69"
+    },
+    "title": {
+      "fontFace": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif",
+      "color": "#002C69"
+    },
+    "label": {
+      "fontFace": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif",
+      "color": "#002C69"
+    },
+    "header": {
+      "fontFace": "'Segoe UI', wf_segoe-ui_normal, helvetica, arial, sans-serif",
+      "color": "#002C69"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "border": [
+          {
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            },
+            "show": true,
+            "radius": 4
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          {
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ],
+        "outspace": [
+          {
+            "color": {
+              "solid": {
+                "color": "#FFFFFF"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "ABC Hospital ER Summary"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "959594a9-ae88-4117-8c97-e2d9bc8167e6"
+  }
+}

@@ -1,0 +1,65 @@
+table Time_Of_Day
+	lineageTag: d1619ac6-ae2f-4653-b7f3-a1857d7ddcbe
+
+	column Time_Of_Day
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: e20351dd-2c62-4bca-a40f-347281e30179
+		summarizeBy: none
+		sourceColumn: Time_Of_Day
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column Hour
+		dataType: int64
+		formatString: 0
+		lineageTag: ee52ff11-7353-4d75-a91a-e3484976d479
+		summarizeBy: none
+		sourceColumn: Hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column Time_Bucket
+		dataType: string
+		lineageTag: f6264fff-7eac-4e32-ab68-f2acbd3a226b
+		summarizeBy: none
+		sourceColumn: Time_Bucket
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Time_Of_Day = m
+		mode: import
+		source = ```
+				let
+				    // Define the start time
+				    StartTime = #time(0, 0, 0),
+				    
+				    // Calculate the total minutes in a 24-hour period (1440 minutes)
+				    TotalMinutes = 1440,
+				    
+				    // Create a list of times, increasing by one minute
+				    TimeList = List.Times(StartTime, TotalMinutes, #duration(0, 0, 1, 0)),
+				    
+				    // Convert the list to a table
+				    TimeTable = Table.FromList(TimeList, Splitter.SplitByNothing()),
+				    
+				    // Rename the column
+				    #"Renamed Columns" = Table.RenameColumns(TimeTable, {{"Column1", "Time"}}),
+				    
+				    // Change the column type to time
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns", {{"Time", type time}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"Time", "Time_Of_Day"}}),
+				    #"Inserted Hour" = Table.AddColumn(#"Renamed Columns1", "Hour", each Time.Hour([Time_Of_Day]), Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Inserted Hour", "Time_Bucket", each if [Hour] < 8 then "Morning"
+				else if [Hour] >= 8 and [Hour] < 16 then "Afternoon"
+				else "Night")
+				in
+				    #"Added Custom"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

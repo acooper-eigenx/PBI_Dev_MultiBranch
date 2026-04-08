@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Hospital_Data","Calendar","Time_Of_Day","_Measures","Metrics"]
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["CalcGroup","DevMode"]
+
+ref table Hospital_Data
+ref table Calendar
+ref table Time_Of_Day
+ref table _Measures
+ref table Metrics
+
+ref role Departments
+
+ref cultureInfo en-US
+
